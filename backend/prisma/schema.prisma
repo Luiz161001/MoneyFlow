@@ -14,16 +14,28 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String
-  email String @unique
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
   password String
-  
+
   createdAt DateTime @default(now())
+
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id          String   @id @default(cuid())
+  tokenId     String   @unique
+  hashedToken String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
 }
 
 //relations user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
 
 // npx prisma migrate dev --name add_users_table
 // npx prisma generate

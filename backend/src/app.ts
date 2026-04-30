@@ -1,19 +1,27 @@
 import express from "express";
-import authRouter from "./routes/auth.route.js";
-import { config } from "dotenv";
+import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
 import { connectDB, disconnectDB } from "./config/db.js";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import { PORT, CLIENT_URL } from "./config/env.js";
 
 const app = express();
-const PORT = 3000;
 
-config();
 connectDB();
 
+app.use(cors({
+  origin: CLIENT_URL || "http://localhost:5173",
+  credentials: true,
+}));
 
+// middleware for json
 app.use(express.json());
+app.use(cookieParser());
 
 // API Routes
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
