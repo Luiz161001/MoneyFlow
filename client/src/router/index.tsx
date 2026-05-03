@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { LandingPage } from "../pages/LandingPage";
-import { DashBoard } from "../pages/DashBoard";
+import { Dashboard } from "../pages/DashBoard";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import { PublicRoute } from "../components/PublicRoute";
 import { AppLayout } from "../components/AppLayout";
@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
             {
                 element: <AppLayout />,
                 children: [
-                    { path: "/dashboard", element: <DashBoard /> },
+                    { path: "/dashboard", element: <Dashboard /> },
                     { path: "/transactions", element: <Transactions /> },
                     { path: "/budget", element: <Budget /> },
                     { path: "/user", element: <User /> },

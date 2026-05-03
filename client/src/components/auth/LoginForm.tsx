@@ -9,8 +9,8 @@ export function LoginForm() {
     const setUser = useAuthStore((s) => s.setUser);
 
     const [form, setForm] = useState({
-        email:"",
-        password:"",
+        email: "",
+        password: "",
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,12 +33,17 @@ export function LoginForm() {
 
         try {
             const res = await apiClient.post('/auth/login', form);
+            console.log(res);
             const userData = res.data.data;
             setAccessToken(userData.accessToken);
             setUser(userData.user);
             navigate('/dashboard');
         } catch (err: any) {
-            setError(err.response?.data?.message ?? "Login failed. Please try again.");
+            if (err.response?.status === 401) {
+                setError("Invalid email or password");
+            } else {
+                setError("Something went wrong");
+            }
         } finally {
             setLoading(false);
         }
