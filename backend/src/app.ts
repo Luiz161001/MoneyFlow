@@ -1,10 +1,12 @@
 import express from "express";
-import authRouter from "./routes/auth.routes.js";
-import userRouter from "./routes/user.routes.js";
 import { connectDB, disconnectDB } from "./config/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { PORT, CLIENT_URL } from "./config/env.js";
+
+import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
+import transactionsRouter from "./routes/transactions.routes.js";
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.use(cookieParser());
 // API Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/transactions', transactionsRouter);
 
 const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

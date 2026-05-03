@@ -14,14 +14,14 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
 
   refreshTokens RefreshToken[]
+  transactions  Transactions[]
 }
 
 model RefreshToken {
@@ -33,6 +33,17 @@ model RefreshToken {
   expiresAt   DateTime
   revoked     Boolean  @default(false)
   createdAt   DateTime @default(now())
+}
+
+model Transactions {
+  id          String   @id @default(cuid())
+  value       Float
+  type        String
+  category    String
+  description String?
+  createdAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 //relations user User @relation(fields: [userId], references: [id], onDelete: Cascade)
